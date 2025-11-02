@@ -1,0 +1,66 @@
+# Vous devez demander à l'utilisateur de choisir une option comme ceci :
+
+# affichage = """
+# Choisissez une option:
+# \t1: Ajouter un élément
+# \t2: Enlever un élément
+# \t3: Afficher la liste
+# \t4: Vider la liste
+# \t5: Sauvegarder la liste
+# """
+# Ensuite selon l'option choisie par l'utilisateur, ajoute/enlève un élément, afficher/vider la liste.
+
+# Puis une fois que l'utilisateur a fini de rajouter ces éléments, il peut choisir l'option 5 pour sauvegarder la liste dans le dossier courant dans un fichier json, la prochaine fois que l'utilisateur relance le programme, il faudra que le programme s'occupe de charger le json afin de remettre la liste que l'utilisateur avait écrite.
+
+import json
+import os
+
+
+def liste_courses():
+    user_list = []
+    affichage = """ Bienvenue dans le menu de la liste de courses ! 
+    
+    
+    Veuillez hoisir une option svp:
+    
+1: Ajouter un élément
+2: Enlever un élément
+3: Afficher la liste
+t4: Vider la liste
+5: Sauvegarder la liste
+6: Quitter"""
+
+    while True:
+        print(affichage)
+        choix = int(input("Veuillez choisir une des options 1 à 6 du menu d'affichage svp."))
+                
+        if choix == 1:
+            nouvel_element = input("Quel élément souhaitez vous ajouter à la liste?")
+            user_list.append(nouvel_element)
+            print(f"L'élément {nouvel_element} a bien été ajouté à la liste.")
+        elif choix == 2:
+            element_supp = input("Quel élément souhaitez vous supprimer de la liste?")
+            user_list.remove(element_supp)
+            print(f"L'élément {element_supp} a bien été supprimé de la liste.")
+        elif choix == 3:
+            print(f"Voici la liste actualisée {user_list}.")    
+        elif choix == 4:
+            confirmation = str(input("Vous avez choisi de vider la liste de courses, tapez 'oui' pour confirmer."))
+            confirmation = confirmation.lower()
+            if confirmation == "oui":
+                user_list = user_list.clear()
+                print("La liste de courses a bien été vidée.")
+            else:
+                print("Retour au menu principal./n")
+                print(affichage) 
+        elif choix == 5:
+            nom_fichier = str(input("Veuillez saisir le nom du fichier qui sera créé(JSON) svp."))
+            with open(nom_fichier, 'w') as fichier_json:
+                json.dump(user_list, fichier_json)
+        elif choix == 6:
+            print("Merci et à bientôt!")
+            break
+        else: 
+            print(f"Choix '{choix}' non valide. Veuillez choisir une option entre 0 et 6.")
+            
+            
