@@ -1,0 +1,51 @@
+1. Qu'est-ce que le clustering ?
+
+Le clustering est une méthode d'apprentissage non supervisé qui consiste à découper un ensemble de données en différents groupes aussi homogènes que possible. Les données au sein d'un même cluster doivent être les plus similaires possibles et les différents clusters doivent être différents les uns des autres. Il existe trois types d'algorithmes de clustering: hiérarchique (BIRCH)ité (DBSCAN)  à partitionnement (K-means, K-medoids)
+
+
+
+
+2. Est-ce un problème difficile ? pourquoi ?
+
+Le problème du clustering est un concept relativement ardu car le choix du bon algorithme va être intrinsèquement lié aux données. Ainsi, la quantité de données, leur structure, le nombre d'outliers ou leur géométrie (données sphériques, en croissant etc) va déterminer notre choix. De plus, selon que nous sommes en possession de notre target (ground-truth) ou non, nos métriques ne seront pas exactement les mêmes. 
+
+
+
+3. Donnez la complexité en temps et mémoire
+
+K-means: très rapide (calcul de moyenne) , idéal sur les gros datasets mais sensible aux outliers
+K-medoids: moins sensibles aux valeurs aberrantes mais plus gourmand en mémoire (calcul de distance pour chaque point pour déterminer le centroïde)
+DBSCAN: lent, dur à utiliser sur les gros datasets / calcul de densité --> identifie bien les clusters de toutes formes 
+
+
+
+4. Quelle sont les métriques utilisées pour le clustering ?
+
+
+Le choix des métriques pour le clustering va dépendre de si nous avons la target en notre possession.
+
+Métriques intrinsèques (sans target) : Inertie / Coeff de silhouette / Indice de Davies-Bouldin
+Métriques extrinsèques (avec target) : Adjusted Rand Index (ARI) / Adjusted Mutual Information (AMI) / Homogénéité / Complétude / V-measure
+
+
+
+
+5. Ecrivez en une phrase votre compréhension pour 3 métriques avec ground 
+truth (dont Rand Index et AMI) et 3 sans ground truth (dont silouhette) puis 
+donner en une phrase l'intuition derrière ces mesures.
+
+Inertie: somme des distances au carré au sein d'un même cluster (disperion = moyenne) 
+Coeff de silhouette: compare la distance d'un point avec les points de son propre cluster par rapport aux points du cluster voisin le plus proche
+Indice de Davis-Bouldin: ratio de la dispersion à l'intérieur de chaque cluster sur la distance (euclidienne) entre deux centres de clusters (proche de 0 = clusters bien compacts et éloignés)
+
+ARI: on regarde tous les couples de points possibles et on vérifie s'ils sont traités de la même manière par l'algorithme et par la réalité (1: parfait / 0: hasard)
+AMI: AMI mesure le gain de certitude par rapport à la classe d'un point donnée (grâce à l'entropie) (1: l'information mutuelle est maximale / 0: aucun lien) 
+Homogénéité : Chaque cluster ne contient que des membres d'une seule classe réelle.
+
+
+6. Différence entre k-means, k-medoids et DBSCAN.
+
+K-means et k-medoids sont des algo à partitionnement, ils nécessitent de fixer un nombre de k clusters préalable.
+K-means est basé sur les centroïdes (centre = moyenne du cluster = barycentre) alors que K-medoids est basé sur les médoïdes (centre = point du cluster)
+
+DBSCAN est un algo basé sur la densité. Il faut définir deux params: Minpts(nombre de points) et Epsilon (distance). 
