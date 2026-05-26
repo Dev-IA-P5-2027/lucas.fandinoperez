@@ -1,0 +1,11 @@
+fastapi==0.115.0 
+
+uvicorn==0.30.0 
+
+ 
+
+# fastapi  : le framework web 
+
+# uvicorn  : le serveur ASGI qui fait tourner FastAPI 
+
+#            (FastAPI seul ne peut pas recevoir de requêtes HTTP sans serveur) 
