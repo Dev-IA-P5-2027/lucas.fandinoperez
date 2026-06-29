@@ -1,0 +1,20 @@
+# Environnements virtuels
+ragenv/
+venv/
+.venv/
+
+# Base vectorielle générée
+data/index/
+
+# Secrets
+.env
+
+# Caches Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Caches modèles HuggingFace (optionnel, très volumineux)
+.cache/

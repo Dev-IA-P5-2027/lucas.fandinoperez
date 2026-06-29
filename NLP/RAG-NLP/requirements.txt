@@ -1,0 +1,25 @@
+# Ingestion et chunking des PDF tabulaires
+docling>=2.83
+
+# Chaîne RAG (chunks, embeddings, base vectorielle)
+langchain-core>=1.2
+langchain-huggingface>=1.2
+langchain-chroma>=0.2
+chromadb>=1.5
+
+# Embeddings et LLM HuggingFace
+sentence-transformers>=5.0
+transformers>=5.0
+torch>=2.0
+accelerate>=1.0
+
+# Génération via Ollama (llama3 en local) — backend par défaut, meilleur que
+# flan-t5 sur les tableaux. Nécessite un serveur Ollama (https://ollama.com)
+# et le modèle : `ollama pull llama3`.
+langchain-ollama>=1.0
+
+# Interface web
+gradio>=6.0
+
+# Chargement du jeton HuggingFace depuis .env
+python-dotenv>=1.0
