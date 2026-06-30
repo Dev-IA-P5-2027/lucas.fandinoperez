@@ -80,33 +80,95 @@ def discuter(message, historique, etat):
     return historique, ""
 
 
-with gr.Blocks(title="RAG Tabulaire — Factures & Devis") as demo:
-    gr.Markdown(
-        "# 📄 RAG spécialisé documents tabulaires\n"
-        "Indexe tes **factures** et **devis** PDF. "
-        "Extraction des tableaux avec **Docling**, recherche vectorielle **ChromaDB**, "
-        "réponses générées par **llama3 (via Ollama)**."
-    )
+# --- CONFIGURATION DE L'INTERFACE GRAPHIQUE (CORRIGÉE ULTRA-COMPATIBLE) ---
+with gr.Blocks(
+    theme=gr.themes.Soft(
+        primary_hue="indigo", 
+        secondary_hue="slate"
+    ),
+    title="RAG Tabulaire — Factures & Devis"
+) as demo:
 
-    etat = gr.State(value={})
-
+    # En-tête stylisé
     with gr.Row():
         with gr.Column(scale=1):
-            fichier = gr.File(label="Document PDF", file_types=[".pdf"])
-            bouton_index = gr.Button("Indexer le document", variant="primary")
-            statut = gr.Markdown("")
-        with gr.Column(scale=2):
-            chat = gr.Chatbot(label="Conversation", height=420)
-            question = gr.Textbox(
-                label="Ta question",
-                placeholder="Ex : Quel est le montant total TTC de la facture ?",
+            gr.Markdown(
+                """
+                # 📄 RAG Spécialisé — Factures & Devis
+                Analyse intelligente de vos documents comptables et contractuels.
+                
+                * **Extraction :** IBM Docling (Préservation de la structure des tableaux)
+                * **Indexation :** ChromaDB (Base vectorielle locale)
+                * **Génération :** LLM local via Ollama
+                """
             )
-            envoyer = gr.Button("Envoyer")
+    
+    gr.HTML("<br>")
+    
+    etat = gr.State(value={})
 
-    bouton_index.click(indexer_pdf, inputs=[fichier, etat], outputs=[etat, statut])
-    envoyer.click(discuter, inputs=[question, chat, etat], outputs=[chat, question])
-    question.submit(discuter, inputs=[question, chat, etat], outputs=[chat, question])
+    # Corps principal de l'application
+    with gr.Row(equal_height=True):
+        
+        # Colonne de gauche : Ingestion du document
+        with gr.Column(scale=1):
+            gr.Markdown("### 📥 1. Chargement du document")
+            with gr.Group():
+                fichier = gr.File(
+                    label="Déposez votre facture ou devis PDF", 
+                    file_types=[".pdf"],
+                    file_count="single"
+                )
+                bouton_index = gr.Button(
+                    "⚙️ Indexer le document", 
+                    variant="primary"
+                )
+            
+            # Encadré pour le statut d'indexation
+            with gr.Group():
+                statut = gr.Markdown(
+                    "*En attente d'un document...*", 
+                    label="Statut de l'indexation"
+                )
 
+        # Colonne de droite : Chatbot interactif
+        with gr.Column(scale=2):
+            gr.Markdown("### 💬 2. Discussion avec le document")
+            
+            # Chatbot épuré au maximum pour éviter les conflits de versions
+            chat = gr.Chatbot(
+                label="Assistant IA", 
+                height=450
+            )
+            
+            # Ligne de saisie avec bouton d'envoi intégré
+            with gr.Row():
+                question = gr.Textbox(
+                    label="",
+                    placeholder="Ex: Quel est le montant total TTC ou la date d'échéance ?",
+                    scale=4,
+                    container=False
+                )
+                envoyer = gr.Button("🚀", scale=1, variant="secondary")
+
+    # --- ÉVÉNEMENTS ---
+    bouton_index.click(
+        indexer_pdf, 
+        inputs=[fichier, etat], 
+        outputs=[etat, statut]
+    )
+    
+    envoyer.click(
+        discuter, 
+        inputs=[question, chat, etat], 
+        outputs=[chat, question]
+    )
+    
+    question.submit(
+        discuter, 
+        inputs=[question, chat, etat], 
+        outputs=[chat, question]
+    )
 
 if __name__ == "__main__":
     demo.launch()
